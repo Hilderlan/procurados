@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:procurados/model/procurado.dart';
 import 'package:procurados/model/procurados_test.dart';
+import 'package:procurados/view/detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -32,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _procuradoCard(BuildContext context, int index) {
-    return GestureDetector(
+    return InkWell(
       child: Card(
         child: Padding(
           padding: EdgeInsets.all(10.0),
@@ -75,7 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      onTap: () {},
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => DetailScreen())),
+      splashColor: Colors.red,
     );
   }
 }
