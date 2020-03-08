@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:procurados/controller/home_controller.dart';
 import 'package:procurados/model/procurado.dart';
 import 'package:procurados/model/procurados_test.dart';
 import 'package:procurados/view/detail_screen.dart';
@@ -9,10 +11,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final _controller = GetIt.I.get<HomeController>();
   List<Procurado> procurados;
 
   @override
   void initState() {
+    _controller.fetchProcuradoList();
     procurados = ProcuradosTest.procurados;
     super.initState();
   }
