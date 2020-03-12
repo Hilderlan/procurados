@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:procurados/controller/home_controller.dart';
 import 'package:procurados/model/procurado.dart';
-import 'package:procurados/model/procurados_test.dart';
+// import 'package:procurados/model/procurados_test.dart';
 import 'package:procurados/view/detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     _controller.fetchProcuradoList();
-    procurados = ProcuradosTest.procurados;
+    // procurados = ProcuradosTest.procurados;
     super.initState();
   }
 
@@ -27,12 +28,12 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text('Procurados'),
       ),
-      body: ListView.builder(
-        itemCount: procurados.length,
+      body: Observer(builder: (_) => ListView.builder(
+        itemCount: _controller.procurados.length,
         itemBuilder: (context, index) {
           return _procuradoCard(context, index);
         },
-      ),
+      ),)
     );
   }
 
@@ -49,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                      image: NetworkImage(procurados[index].photo),
+                      image: NetworkImage(_controller.procurados[index].photo),
                       fit: BoxFit.cover),
                 ),
               ),
@@ -60,14 +61,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        procurados[index].nick ?? "",
+                        _controller.procurados[index].nick ?? "",
                         style: TextStyle(
                             fontSize: 20.0, fontWeight: FontWeight.bold),
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 2),
                         child: Text(
-                          procurados[index].description ?? "",
+                          _controller.procurados[index].description ?? "",
                           style: TextStyle(fontSize: 15.0),
                           maxLines: 3,
                         ),

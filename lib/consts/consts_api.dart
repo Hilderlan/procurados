@@ -1,3 +1,3 @@
 class ConstsApi{
-  static String apiUrl = '';
+  static String apiUrl = 'http://procurados-api.herokuapp.com';
 }

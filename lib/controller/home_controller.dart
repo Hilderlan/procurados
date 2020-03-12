@@ -27,8 +27,10 @@ abstract class _HomeControllerBase with Store {
   Future<List<Procurado>> _loadProcurados() async {
     List list = await _api.getAllProcurados();
     List<Procurado> procuradosAux;
+    // print(list);
 
     for(Map<String, dynamic> json in list){
+      print(json['name']);
       procuradosAux.add(Procurado.fromJson(json));
     }
 
