@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:procurados/controller/home_controller.dart';
+import 'package:procurados/model/procurado.dart';
 import 'package:procurados/view/detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -11,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _controller = GetIt.I.get<HomeController>();
-  
+
   @override
   void initState() {
     _controller.fetchProcuradoList();
@@ -21,23 +22,32 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Procurados'),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.refresh),
-              onPressed: () => _controller.fetchProcuradoList,
-            )
-          ],
-        ),
-        body: Observer(
-          builder: (_) => ListView.builder(
-            itemCount: _controller.procurados.length,
-            itemBuilder: (context, index) {
-              return _procuradoCard(context, index);
-            },
-          ),
-        ));
+      appBar: AppBar(
+        title: Text('Procurados'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.refresh),
+            onPressed: () => _controller.fetchProcuradoList,
+          )
+        ],
+      ),
+      body: Observer(builder: (_) {
+        if (_controller.procurados == null) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        List<Procurado> _procurados = _controller.procurados.toList();
+
+        return ListView.builder(
+          itemCount: _procurados.length,
+          itemBuilder: (context, index) {
+            return _procuradoCard(context, index);
+          },
+        );
+      }),
+    );
   }
 
   Widget _procuradoCard(BuildContext context, int index) {
@@ -85,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       onTap: () => Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => DetailScreen())),
+          .push(MaterialPageRoute(builder: (context) => DetailScreen(procurado: _controller.procurados[index],))),
       splashColor: Colors.red,
     );
   }
