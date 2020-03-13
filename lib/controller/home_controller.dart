@@ -12,25 +12,21 @@ abstract class _HomeControllerBase with Store {
   ObservableList<Procurado> procurados;
 
   _HomeControllerBase(){
-    fetchProcuradoList(); // Inicializa logo a lista no construtor
+    //fetchProcuradoList(); // Inicializa logo a lista no construtor
   }
 
   @action
   fetchProcuradoList(){
-    procurados = null;
-
     _loadProcurados().then((procuradosList){
-      procurados = procuradosList;
+      procurados = procuradosList.asObservable();
     });
   }
 
   Future<List<Procurado>> _loadProcurados() async {
     List list = await _api.getAllProcurados();
-    List<Procurado> procuradosAux;
-    // print(list);
+    List<Procurado> procuradosAux = List();
 
-    for(Map<String, dynamic> json in list){
-      print(json['name']);
+    for(Map<String, dynamic> json in list){      
       procuradosAux.add(Procurado.fromJson(json));
     }
 

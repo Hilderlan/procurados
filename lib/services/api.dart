@@ -12,7 +12,7 @@ class Api {
     final response = await _dio.get('/').catchError((e){
       print(e);
     });
-    // print(response.data['data']);
+    
     return response.data['data'];
   }
 }

@@ -10,7 +10,7 @@ class Procurado{
     name = json['name'];
     nick = json['nick'];
     photo = json['photo'];
-    description = json['description'];
+    description = json['description'] != null ? json['description'] : "";
   }
 
   Map<String, dynamic> toJson(){
